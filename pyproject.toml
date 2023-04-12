@@ -1,0 +1,64 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "revchatgptauth"
+version = "0.0.0"
+description = ""
+authors = []
+readme = "README.md"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+# Python environment settings
+pythonPlatform = "All"
+venvPath = "./.venv"
+stubPath = "./.type_stubs"
+include = ["./*"]
+exclude = ["**/node_modules", "**/__pycache__"]
+
+# For untyped modules
+useLibraryCodeForTypes = true     # Attempt to read and infer types from third-party modules if no stub files are present
+reportMissingTypeStubs = false    # Ignore errors from modules without type stubs
+reportUnknownMemberType = false   # Ignore errors from untyped function calls in third-party modules
+reportUnknownVariableType = false # Ignore errors from untyped function calls in third-party modules
+
+pythonVersion = "3.9"
+
+[tool.yapf]
+based_on_style = "pep8"
+spaces_before_comment = 4
+split_before_logical_operator = true
+column_limit = 119
+allow_split_before_dict_value = false
+
+[tool.ruff]
+line-length = 119
+select = ["PLE", "PLW", "E", "W", "F", "I", "Q", "B"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+poetry = "^1.4.2"
+yt-dlp = "^2023.3.4"
+httpx = "^0.24.0"
+
+[tool.pyright.defineConstant]
+DEBUG = true
+
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
+docstring-quotes = "single"
+multiline-quotes = "single"
+
+[tool.poetry.group.dev.dependencies]
+toml = "^0.10.2"
+yapf = "^0.32.0"
+pytest = "^7.3.0"
+pytest-cov = "^4.0.0"
+invoke = "^2.0.0"
+ruff = "^0.0.261"
+types-invoke = "^2.0.0.6"
+types-toml = "^0.10.8.6"
+pyright = "^1.1.302"
