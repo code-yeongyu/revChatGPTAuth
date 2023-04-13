@@ -3,11 +3,12 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "revchatgptauth"
+name = "revChatGPTAuth"
 version = "0.0.0"
 description = ""
 authors = []
 readme = "README.md"
+packages = [{ include = "revChatGPTAuth" }]
 
 [tool.pyright]
 typeCheckingMode = "strict"
@@ -62,3 +63,4 @@ ruff = "^0.0.261"
 types-invoke = "^2.0.0.6"
 types-toml = "^0.10.8.6"
 pyright = "^1.1.302"
+pytest-sugar = "^0.9.7"
