@@ -27,7 +27,7 @@ class TestChatGPTAccessTokenParser:
         chatgpt_access_token_parser = ChatGPTAccessTokenParser('chrome')
 
         # when
-        access_token = chatgpt_access_token_parser.get_openai_chatgpt_access_token()
+        access_token = chatgpt_access_token_parser.get_access_token()
 
         # then
         mock_cookie_parser.parse_cookie.assert_called_once()
