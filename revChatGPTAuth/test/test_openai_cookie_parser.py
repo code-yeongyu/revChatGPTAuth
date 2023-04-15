@@ -1,33 +1,29 @@
-from http.cookiejar import Cookie
+from http.cookiejar import Cookie, CookieJar
 from unittest.mock import MagicMock, patch
 
 import pytest
-from yt_dlp.cookies import SUPPORTED_BROWSERS
-from yt_dlp.utils import YoutubeDLCookieJar
 
 from revChatGPTAuth.openai_cookie_parser import OpenAICookieParser
+from revChatGPTAuth.supported_browser import SupportedBrowser
 
 
 class TestOpenAICookieParser:
-
-    def test_init_with_unsupported_browser(self):
-        with pytest.raises(ValueError):
-            OpenAICookieParser(browser_name='Internet Explorer Holy Shit')
+    SUPPORTED_BROWSERS = [SupportedBrowser(browser_name) for browser_name in OpenAICookieParser.SUPPORTED_BROWSERS]
 
     @pytest.mark.parametrize('supported_browser', SUPPORTED_BROWSERS)
-    def test_init_with_supported_browser(self, supported_browser: str):
+    def test_init_with_supported_browser(self, supported_browser: SupportedBrowser):
         parser = OpenAICookieParser(browser_name=supported_browser)
         assert parser.BROWSER_NAME == supported_browser
 
     @pytest.mark.parametrize('supported_browser', SUPPORTED_BROWSERS)
-    @patch('revChatGPTAuth.openai_cookie_parser.extract_cookies_from_browser')
+    @patch('revChatGPTAuth.openai_cookie_parser.load_cookies')
     def test_parse_cookie_with_supported_browser(
         self,
-        mock_extract_cookies: MagicMock,
-        supported_browser: str,
+        mock_load_cookies: MagicMock,
+        supported_browser: SupportedBrowser,
     ):
         # given
-        cookie_jar = YoutubeDLCookieJar()
+        cookie_jar = CookieJar()
         cookie_jar.set_cookie(
             Cookie(
                 version=0,
@@ -85,7 +81,7 @@ class TestOpenAICookieParser:
                 comment_url=None,
                 rest={},
             ))
-        mock_extract_cookies.return_value = cookie_jar
+        mock_load_cookies.return_value = cookie_jar
         parser = OpenAICookieParser(browser_name=supported_browser)
 
         # when

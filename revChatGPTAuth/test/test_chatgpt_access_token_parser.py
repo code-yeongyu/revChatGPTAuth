@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, patch
 
 from revChatGPTAuth.chatgpt_access_token_parser import ChatGPTAccessTokenParser, get_access_token
+from revChatGPTAuth.supported_browser import SupportedBrowser
 
 
 class TestChatGPTAccessTokenParser:
@@ -24,7 +25,7 @@ class TestChatGPTAccessTokenParser:
         mock_response.json.return_value = {'accessToken': expected_access_token}
         mock_httpx_get.return_value = mock_response
 
-        chatgpt_access_token_parser = ChatGPTAccessTokenParser('chrome')
+        chatgpt_access_token_parser = ChatGPTAccessTokenParser(SupportedBrowser.CHROME)
 
         # when
         access_token = chatgpt_access_token_parser.get_access_token()
@@ -43,11 +44,11 @@ class TestChatGPTAccessTokenParser:
 def test_get_access_token(mock_chatgpt_access_token_parser: MagicMock) -> None:
     # given
     expected_access_token = 'access_token'
-    mock_chatgpt_access_token_parser.return_value.get_openai_chatgpt_access_token.return_value = expected_access_token
+    mock_chatgpt_access_token_parser.return_value.get_access_token.return_value = expected_access_token
 
     # when
-    access_token = get_access_token('chrome')
+    access_token = get_access_token(SupportedBrowser.CHROME)
 
     # then
-    mock_chatgpt_access_token_parser.assert_called_once_with('chrome')
+    mock_chatgpt_access_token_parser.assert_called_once_with(SupportedBrowser.CHROME)
     assert access_token == expected_access_token
