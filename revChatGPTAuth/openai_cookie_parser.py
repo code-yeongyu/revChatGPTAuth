@@ -7,7 +7,7 @@ from revChatGPTAuth.utils import load_cookies
 
 class OpenAICookieParser:
 
-    SUPPORTED_BROWSERS = [browser.value for browser in SupportedBrowser]
+    SUPPORTED_BROWSERS: list[str] = [browser.value for browser in SupportedBrowser]
 
     def __init__(self, browser_name: SupportedBrowser):
         self.BROWSER_NAME = browser_name
