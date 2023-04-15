@@ -1,19 +1,19 @@
 from http.cookiejar import Cookie
 from typing import Any, Optional
 
-from yt_dlp.cookies import SUPPORTED_BROWSERS, extract_cookies_from_browser
-from yt_dlp.utils import YoutubeDLCookieJar
+from revChatGPTAuth.supported_browser import SupportedBrowser
+from revChatGPTAuth.utils import load_cookies
 
 
 class OpenAICookieParser:
 
-    def __init__(self, browser_name: str):
-        if browser_name not in SUPPORTED_BROWSERS:
-            raise ValueError(f'Browser {browser_name} is not supported. Supported browsers are: {SUPPORTED_BROWSERS}')
+    SUPPORTED_BROWSERS = [browser.value for browser in SupportedBrowser]
+
+    def __init__(self, browser_name: SupportedBrowser):
         self.BROWSER_NAME = browser_name
 
     def parse_cookie(self):
-        all_cookies: YoutubeDLCookieJar = extract_cookies_from_browser(self.BROWSER_NAME)
+        all_cookies = load_cookies(self.BROWSER_NAME.value)
         openai_cookies = self._get_openai_cookies(all_cookies.__dict__)
         openai_cookies_dict: dict[str, Optional[str]] = {key: cookie.value for key, cookie in openai_cookies.items()}
         return openai_cookies_dict
