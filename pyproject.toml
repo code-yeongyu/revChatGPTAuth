@@ -42,7 +42,6 @@ select = ["PLE", "PLW", "E", "W", "F", "I", "Q", "B"]
 [tool.poetry.dependencies]
 python = "^3.9"
 poetry = "^1.4.2"
-yt-dlp = "^2023.3.4"
 httpx = "^0.24.0"
 browser-cookie3 = "^0.17.1"
 
