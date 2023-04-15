@@ -13,7 +13,7 @@ class OpenAICookieParser:
         self.BROWSER_NAME = browser_name
 
     def parse_cookie(self):
-        all_cookies = load_cookies(self.BROWSER_NAME.value)
+        all_cookies = load_cookies(self.BROWSER_NAME)
         openai_cookies = self._get_openai_cookies(all_cookies.__dict__)
         openai_cookies_dict: dict[str, Optional[str]] = {key: cookie.value for key, cookie in openai_cookies.items()}
         return openai_cookies_dict

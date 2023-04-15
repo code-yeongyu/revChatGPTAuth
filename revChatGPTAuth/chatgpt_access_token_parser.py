@@ -1,14 +1,18 @@
+from typing import Union
+
 import httpx
+
+from revChatGPTAuth.supported_browser import SupportedBrowser
 
 from .openai_cookie_parser import OpenAICookieParser
 
 
 class ChatGPTAccessTokenParser:
 
-    def __init__(self, browser_name: str):
+    def __init__(self, browser_name: SupportedBrowser):
         self.openai_cookie_parser = OpenAICookieParser(browser_name)
 
-    def get_openai_chatgpt_access_token(self) -> str:
+    def get_access_token(self) -> str:
         cookie = self._get_stringified_cookies()
         response = self._auth_openai(cookie)
         response.raise_for_status()
@@ -25,6 +29,8 @@ class ChatGPTAccessTokenParser:
         return response
 
 
-def get_access_token(browser_name: str) -> str:
+def get_access_token(browser_name: Union[str, SupportedBrowser]) -> str:
+    if isinstance(browser_name, str):
+        browser_name = SupportedBrowser(browser_name)
     chatgpt_access_token_parser = ChatGPTAccessTokenParser(browser_name)
-    return chatgpt_access_token_parser.get_openai_chatgpt_access_token()
+    return chatgpt_access_token_parser.get_access_token()
